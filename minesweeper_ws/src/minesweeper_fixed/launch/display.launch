@@ -1,0 +1,29 @@
+<launch>
+  <arg
+    name="model" />
+  <arg
+    name="gui"
+    default="False" />
+  <arg name="initial_pose_x" value="5.0"/> 
+  <arg name="initial_pose_y" value="-4.5"/>
+  <arg name="initial_pose_z" value="0.0"/>
+  <param
+    name="robot_description"
+    textfile="$(find minesweeper_fixed)/urdf/minesweeper_fixed.urdf" />
+  <param
+    name="use_gui"
+    value="true" />
+  <node
+    name="joint_state_publisher"
+    pkg="joint_state_publisher"
+    type="joint_state_publisher" />
+  <node
+    name="robot_state_publisher"
+    pkg="robot_state_publisher"
+    type="state_publisher" />
+  <node
+    name="rviz"
+    pkg="rviz"
+    type="rviz"
+    args="-d $(find minesweeper_fixed)/urdf.rviz" />
+</launch>

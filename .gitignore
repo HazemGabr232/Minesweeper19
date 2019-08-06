@@ -34,8 +34,11 @@
 # swap and backup files
 *~
 *.swp
+*.tmp
 
 # minesweeper_ws build files 
 minesweeper_ws/build/
 minesweeper_ws/devel/
 minesweeper_ws/src/CMakeLists.txt
+minesweeper_ws/src/imu_tools/
+minesweeper_ws/src/world_pub/

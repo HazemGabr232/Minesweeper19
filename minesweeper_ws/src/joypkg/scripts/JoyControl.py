@@ -1,4 +1,4 @@
-#!/usr/bin/env python2.7
+#!/usr/bin/env python
 from __future__ import division
 from std_msgs.msg import Int8, String
 import rospy
@@ -55,14 +55,15 @@ numbuttons = j.get_numbuttons()
 print("numbuttons")
 print(numbuttons)
 print("--------------")
- 
+flag = 0 
 X = 0
 Y = 0
-res = 255
+res = 249 #change it to 255
 # Mappinng butttons    
 def buttonscontrol(event):
     global X
     global Y
+    global flag
 
     if event.type == pygame.JOYAXISMOTION:
         if event.axis > 1:
@@ -95,6 +96,12 @@ def buttonscontrol(event):
             R = -r
         
         print (L, R)
+	if L != 0 or R != 0:
+	    pub.publish('Z'+ ',' + str(L) + ',' + str(R))
+	    flag = 0
+	elif flag == 0 and L == 0 and R == 0: 
+	    pub.publish("Z,0,0")
+	    flag=1
         #print (X, Y)
 
    #TODO
@@ -169,13 +176,13 @@ def buttonscontrol(event):
         elif event.button == PS3_BUTTON_LB :        
             print("BUTTON_LB")
             #rospy.loginfo('LB')
-            #pub.publish('P')
-            Mode = 'P'
+            pub.publish('L')
+            Mode = 'L'
         elif event.button == PS3_BUTTON_LT :
             print("BUTTON_LT")
             #rospy.loginfo('LT')
-            #pub.publish('P')
-            Mode = 'P'
+            pub.publish('A')
+            Mode = 'A'
         elif event.button == PS3_BUTTON_Back :
             print("BUTTON_Back")
             #rospy.loginfo('Back')
@@ -198,10 +205,9 @@ def buttonscontrol(event):
 #Announcment for start 
 #pub.publish(0000)
 
-while True:
+while not rospy.is_shutdown():
     #read in joystick events
     events = pygame.event.get()
-   
     # and process them
     for event in events:
         buttonscontrol(event)
